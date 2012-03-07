@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.samsung.gui"
+    android:versionCode="1"
+    android:versionName="1.0"
+    android:installLocation="preferExternal" >
+
+    <supports-screens
+		android:largeScreens="true"
+		android:xlargeScreens="true"
+		android:anyDensity="true" />
+    
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="11" />
+
+    <application
+        android:theme="@android:style/Theme.Holo.NoActionBar"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <activity android:screenOrientation="landscape"
+            android:name=".HomeActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+        		<action android:name="android.intent.action.MAIN" />
+        		<category android:name="android.intent.category.LAUNCHER" />
+            	<!-- <category android:name="android.intent.category.HOME" />
+            	<category android:name="android.intent.category.DEFAULT" /> -->
+            </intent-filter>
+        </activity>
+        <activity android:screenOrientation="landscape"
+            android:name=".ImageTestActivity"
+            android:label="@string/app_name" />
+        <activity android:screenOrientation="landscape"
+            android:name=".VideoActivity"
+            android:label="@string/app_name" />
+        <activity android:screenOrientation="landscape"
+            android:name=".FadeAnimActivity"
+            android:label="@string/app_name" />
+        <activity android:screenOrientation="landscape"
+            android:name=".GalleryActivity"
+            android:label="@string/app_name" />
+	</application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
+</manifest>

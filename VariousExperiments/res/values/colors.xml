@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="orange">#f8ae0f</color>
+    <color name="lightorange">#ffaf00</color>
+    <color name="darkorange">#ff7a00</color>
+    <color name="grey">#a4a4a4</color>
+    <color name="greyelem">#595959</color>
+    <color name="dimgrey">#7f7f7f</color>
+    <color name="newsgrey">#e7e3e7</color>
+    <color name="lightgrey">#e3e3e3</color>
+    <color name="darkgrey">#505050</color>
+    <color name="basegrey">#989898</color>
+    <color name="benettongreen">#198c27</color>
+</resources>

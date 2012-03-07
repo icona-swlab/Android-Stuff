@@ -1,0 +1,7 @@
+Esperimenti in questo progetto (sviluppati per Samsung App Catalog):
+
+- sostituzione elementi grafici statici al termine di un video;
+- visualizzazione di elementi grafici per valutazione resa;
+- costruzione pagina con immagini che appaiono in fade mode;
+- galleria standard con immagini che ingrandiscono quando hanno il focus (centro dello schermo con galleria ferma);
+- gestione tasto home, e utilizzo dell'applicazione come launcher (due righe commentate nel manifest).

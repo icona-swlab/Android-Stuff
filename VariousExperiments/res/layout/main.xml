@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    >
+    <Button android:id="@+id/testvideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home with video"
+        />
+    <Button android:id="@+id/testimage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show test images"
+        />
+    <Button android:id="@+id/testanimfade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show fading images"
+        />
+    <Button android:id="@+id/testgallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gallery with growing images"
+        />
+</LinearLayout>
