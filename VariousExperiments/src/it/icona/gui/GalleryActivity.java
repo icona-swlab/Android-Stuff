@@ -1,4 +1,4 @@
-package com.samsung.gui;
+package it.icona.gui;
 
 import android.content.Context;
 import android.content.res.TypedArray;

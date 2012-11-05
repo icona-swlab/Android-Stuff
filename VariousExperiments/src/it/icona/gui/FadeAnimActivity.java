@@ -1,4 +1,4 @@
-package com.samsung.gui;
+package it.icona.gui;
 
 import android.os.Bundle;
 import android.view.animation.Animation;

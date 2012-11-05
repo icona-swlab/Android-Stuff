@@ -24,4 +24,9 @@
         android:layout_height="wrap_content"
         android:text="Gallery with growing images"
         />
+    <Button android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exit"
+        />
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.samsung.gui;
+package it.icona.gui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ public class HomeActivity extends CustomActivity implements OnClickListener
 	private Button testimg = null;
 	private Button testanimfade = null;
 	private Button testgallery = null;
+	private Button close = null;
 	
     /** Called when the activity is first created. */
     @Override
@@ -38,11 +39,13 @@ public class HomeActivity extends CustomActivity implements OnClickListener
         testimg = (Button) findViewById(R.id.testimage);
         testanimfade = (Button) findViewById(R.id.testanimfade);
         testgallery = (Button) findViewById(R.id.testgallery);
+        close = (Button) findViewById(R.id.close);
         
         showvideo.setOnClickListener(this);
         testimg.setOnClickListener(this);
         testanimfade.setOnClickListener(this);
         testgallery.setOnClickListener(this);
+        close.setOnClickListener(this);
     }
 
 	@Override
@@ -65,6 +68,10 @@ public class HomeActivity extends CustomActivity implements OnClickListener
 				break;
 			case R.id.testgallery:
 				newintent = new Intent(this, GalleryActivity.class);
+				break;
+			case R.id.close:
+				MainApplication.showBar();
+				finish();
 				break;
 			default:
 				break;

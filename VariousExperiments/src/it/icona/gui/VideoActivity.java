@@ -1,11 +1,10 @@
-package com.samsung.gui;
+package it.icona.gui;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
