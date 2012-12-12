@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-    android:background="@android:color/white"
+    android:background="@android:color/transparent"
 	>
 	<RelativeLayout android:id="@+id/search_bar"
 	    android:layout_width="fill_parent"
 	    android:layout_height="40dp"
+	    android:layout_alignParentTop="true"
 	    android:background="#a4a4a4"
 	    >
 	    <it.icona.roundcorners.MySpinner android:id="@+id/seltype"
@@ -70,4 +71,30 @@
 	        android:layout_alignParentRight="true"
 	    	/>
 	</RelativeLayout>
-</LinearLayout>
+	
+	<RadioGroup
+	    android:layout_width="fill_parent"
+	    android:layout_height="50dp"
+	    android:layout_centerInParent="true"
+	    android:checkedButton="@+id/first"
+	    android:orientation="horizontal" >
+
+	   <RadioButton android:id="@+id/first"
+	      android:width="50dp"
+	      android:height="50dp"
+	      android:button="@drawable/button_radio"/>
+	   <RadioButton android:id="@+id/second"
+	      android:width="50dp"
+	      android:height="50dp"
+	      android:button="@drawable/button_radio"/>
+	   <RadioButton android:id="@+id/third"
+	      android:width="50dp"
+	      android:height="50dp"
+	      android:button="@drawable/button_radio"/>
+	   <RadioButton android:id="@+id/fourth"
+	      android:width="50dp"
+	      android:height="50dp"
+	      android:button="@drawable/button_radio"/>
+	</RadioGroup>
+
+</RelativeLayout>

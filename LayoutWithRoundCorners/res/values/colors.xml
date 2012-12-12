@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="orange">#f8ae0f</color>
+    <color name="lightorange">#ffaf00</color>
+    <color name="darkorange">#ff7a00</color>
+    <color name="grey">#4c4c4c</color>
+    <color name="greyelem">#595959</color>
+    <color name="dimgrey">#7f7f7f</color>
+    <color name="deselectedgrey">#454545</color>
+    <color name="lightgrey">#e3e3e3</color>
+    <color name="darkgrey">#505050</color>
+    <color name="basegrey">#989898</color>
+    <color name="benettongreen">#198c27</color>
+    <color name="sfgreen">#00ae00</color>
+    <color name="tr_sfgreen">#CC00ae00</color>
+    <color name="start_breadcrumb">#e6e8ea</color>
+    <color name="end_breadcrumb">#e6e7e9</color>
+    <color name="boxnet_grey">#bec0c1</color>
+</resources>
