@@ -2,10 +2,15 @@ package com.paperlit.reader.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Stack;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -25,6 +30,15 @@ import org.xmlpull.v1.XmlPullParser;
     */
     public class XMLPropertyListConfiguration {
        
+    	public static String[] xmlHeaders = new String[] {
+    		 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        	,"<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+        	,"<plist version=\"1.0\">"
+    	};
+    	public static String[] xmlFooters = new String[] {
+        	"</plist>"
+    	};
+    	
        /**
         * The nested (hierarchical) HashMap which holds our key-value pairs of our plist file.
         */
@@ -103,31 +117,6 @@ import org.xmlpull.v1.XmlPullParser;
     		   return stack.peek() instanceof ArrayList;
        }
        
-       public class PListCollection
-       {
-    	   Object collection;
-    	   String key;
-    	   
-    	   public PListCollection( HashMap<String,Object> hMap )
-    	   {
-    		   collection = hMap;
-    	   }
-    	   
-    	   public PListCollection( ArrayList<Object> aList )
-    	   {
-    		   collection = aList;
-    	   }   
-    	   
-    	   @SuppressWarnings("unchecked")
-		public void add( Object obj )
-    	   {
-    		   if ( collection instanceof HashMap<?,?> )
-    			   ( (HashMap<String,Object>) collection ).put( key, obj );
-    		   else
-    			   ( (ArrayList<Object>) collection ).add( obj );
-    	   }
-       }
-       
        /**
         * Utility method which uses a XmlPullParser to iterate through the XML elements
         * and build up a hierarchical HashMap representing the key-value pairs of the
@@ -136,7 +125,7 @@ import org.xmlpull.v1.XmlPullParser;
         * @param inputStream The InputStream which contains the plist XML file.
         */
        @SuppressWarnings("unchecked")
-	public void parse(InputStream inputStream) {
+       public void parse(InputStream inputStream) {
           //XmlPullParser parser = Xml.newPullParser();
     	   org.kxml2.io.KXmlParser parser = new org.kxml2.io.KXmlParser();
           try {
@@ -150,7 +139,6 @@ import org.xmlpull.v1.XmlPullParser;
              String key = null;
              
              Stack<Object> 				stack = new Stack<Object>();
-             
              HashMap<String, Object> 	dict = null;
              ArrayList<Object> 			array = null;
              
@@ -161,7 +149,7 @@ import org.xmlpull.v1.XmlPullParser;
                       
                    case XmlPullParser.START_TAG:
                       name = parser.getName();
-                      System.out.println( "Name is " + name );
+//                      System.out.println( "Name is " + name );
                       if(name.equalsIgnoreCase("dict")) 
                       {
                          // root dict element
@@ -173,7 +161,6 @@ import org.xmlpull.v1.XmlPullParser;
                          else 
                          {
                              HashMap<String, Object> childDict = new HashMap<String, Object>();
-
                         	 if( parsingArray(stack) ) 
                                  array.add(childDict);
                         	 else
@@ -189,7 +176,7 @@ import org.xmlpull.v1.XmlPullParser;
                       {
                           if( parsingArray( stack ) )
                              array.add(new Integer(parser.nextText()));
-                          else
+                           else
                              dict.put(key, new Integer(parser.nextText()));
                        }
                       else if(name.equalsIgnoreCase("true") || name.equalsIgnoreCase("false")) 
@@ -284,32 +271,133 @@ import org.xmlpull.v1.XmlPullParser;
        {
     	   return mPlistHashMap;
        }
+              
+       private String makeIndent( int indentLevel )
+       {
+    	   String s = "";
+    	   for ( int i = 0; i < indentLevel; i++ )
+    		   s += "\t";
+    	   return s;
+       }
        
+       @SuppressWarnings("unchecked")
+       private void saveObject( PrintStream fos, Object obj, int indentLevel  )
+       {
+    	  	if ( obj instanceof Boolean )
+    	  		saveBoolean( fos, (Boolean) obj, indentLevel );
+     	  	else if ( obj instanceof String )
+     	  		saveString( fos, (String) obj, indentLevel );
+     	  	else if ( obj instanceof Integer )
+     	  		saveInteger( fos, (Integer) obj, indentLevel );
+     	  	else if ( obj instanceof ArrayList )
+     	  		saveArray( fos, (ArrayList) obj, indentLevel );
+     	  	else if ( obj instanceof HashMap )
+     	  		saveDictionary( fos, (HashMap) obj, indentLevel );
+       }
+       
+       private void saveString( PrintStream fos, String obj, int indentLevel )
+       {
+    	   fos.println( makeIndent(indentLevel) + "<string>" + obj + "</string>" );  
+       }
+       
+       private void saveBoolean( PrintStream fos, Boolean obj, int indentLevel )
+       {
+    	   fos.println( makeIndent(indentLevel) + "<" + obj + "/>" );  
+       }
+       
+       private void saveInteger( PrintStream fos, Integer obj, int indentLevel )
+       {
+    	   fos.println( makeIndent(indentLevel) + "<integer>" + obj + "</integer>" );  
+       }
+       
+       @SuppressWarnings("unchecked")
+       private void saveArray( PrintStream fos, ArrayList array, int indentLevel )
+       {
+    	   String indent = makeIndent(indentLevel);
+    	  fos.println( indent + "<array>" );
+    	  Iterator it = array.iterator();
+    	  while( it.hasNext() ) 
+    	  {
+    		  Object obj = (Object) it.next();
+    		  saveObject( fos, obj, indentLevel + 1 );
+    	  }
+    	  fos.println( indent + "</array>"); 
+       }
+       
+       
+       private void saveKeyValuePair( PrintStream fos, String key, Object obj, int indentLevel )
+       {
+    	   String indent = makeIndent(indentLevel);
+     	  	fos.println( indent + "<key>" + key + "</key>" );
+     	  	saveObject( fos, obj, indentLevel );    	   
+       }
+       
+       @SuppressWarnings("unchecked")
+       private void saveDictionary( PrintStream fos, HashMap dict, int indentLevel )
+       {
+    	   String indent = makeIndent(indentLevel);
+    	  fos.println( indent + "<dict>" );
+    	  Iterator it = dict.entrySet().iterator();
+    	  while( it.hasNext() ) 
+    	  {
+    		  Map.Entry entry = (Map.Entry) it.next();
+    		  String key = (String) entry.getKey();
+    		  Object obj =  entry.getValue();
+    		  saveKeyValuePair( fos, key, obj, indentLevel + 1 );
+    	  }
+    	  fos.println( indent + "</dict>"); 
+       }
+       
+       public boolean save( String name )
+       {
+    	  PrintStream fos = null;
+    	  try {
+			File plistFile = new File( name );  
+			fos = new PrintStream(new FileOutputStream( plistFile ));
+			for ( int i = 0; i < xmlHeaders.length; i++ )
+				fos.println( xmlHeaders[i] );
+			saveDictionary( fos, mPlistHashMap, 0 );
+			for ( int i = 0; i < xmlFooters.length; i++ )
+				fos.println( xmlFooters[i] );
+			
+			return true;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			fos.flush();
+			fos.close();
+		}
+       }
+
     @SuppressWarnings("unchecked")
 	public static void main( String args[] )
 	{
 		try {
-			System.out.println( System.getProperty( "user.dir" ) );
-			File plistFile = new File( "prefs.plist");
+//			System.out.println( System.getProperty( "user.dir" ) );
+			File plistFile = new File( "Content.plist");
 			InputStream fis = new FileInputStream( plistFile );
 			
 			XMLPropertyListConfiguration conf = new XMLPropertyListConfiguration( fis );
 			HashMap plist = conf.getPlist();
-            System.out.println( "plist has " + plist.size() + " elements" );
+//            System.out.println( "plist has " + plist.size() + " elements" );
 
 			Iterator it = plist.keySet().iterator();
 			while( it.hasNext() )
 			{
 				String key = (String) it.next();
 				Object hm = plist.get( key );
-				System.out.println( "Key " + key + " object is:" + hm.getClass().getName());
+				// System.out.println( "Key " + key + " object is:" + hm.getClass().getName());
 			}			
 			
 			Boolean b = (Boolean) conf.getConfigurationObject( "customSort" );
-			System.out.println( "customsort is : " + b );
+//			System.out.println( "customsort is : " + b );
 			
 			b = (Boolean) conf.getConfigurationObject( "defaultIngredients.aglio" );
-			System.out.println( "customsort is : " + b );
+//			System.out.println( "defaultIngredients.aglio is : " + b );
+			
+			conf.save( "prefs1.plist");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
